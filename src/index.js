@@ -18,11 +18,6 @@ const userLang = {}
 const answerTimeout = Config.get('Bot.answerTimeout')
 bot.use(TelegrafSession())
 bot.use(i18n.middleware())
-bot.use(async (_, next) => {
-    const start = new Date()
-    await next()
-    const ms = new Date() - start
-})
 bot.use((ctx, next) => {
     if (!answerTimeout || !ctx.message) {
         return next()
@@ -114,7 +109,7 @@ bot.action(/^riks_(.{1,2})$/, async (ctx) => {
             return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
         }
     } catch (err) {
-        return ctx.editMessageText(i18n.t(lang, 'error', { err }))
+        return ctx.editMessageText(i18n.t(lang, 'error', { err }), Telegraf.Extra.HTML())
     }
 })
 
@@ -127,7 +122,7 @@ bot.action(/^zdic_(.{1,2})$/, async (ctx) => {
         const result = await zdic.findByCharacter(character)
         if (result) {
             const [rendered, message] = await Promise.all([glyphRenderer.render(match[1]), ctx.replyWithPhoto('https://i.ibb.co/9TCF0WZ/loading.png', {
-                caption: i18n.t(lang, 'search.riksdb', result),
+                caption: i18n.t(lang, 'search.zdic', result),
             })])
             await ctx.deleteMessage()
             return ctx.telegram.editMessageMedia(ctx.chat.id, message.message_id, null, {
@@ -141,7 +136,7 @@ bot.action(/^zdic_(.{1,2})$/, async (ctx) => {
             return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
         }
     } catch (err) {
-        return ctx.editMessageText(i18n.t(lang, 'error', { err }))
+        return ctx.editMessageText(i18n.t(lang, 'error', { err }), Telegraf.Extra.HTML())
     }
 })
 
