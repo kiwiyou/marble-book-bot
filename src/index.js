@@ -4,6 +4,7 @@ import Telegraf from 'telegraf'
 import TelegrafI18n from 'telegraf-i18n'
 import TelegrafSession from 'telegraf/session'
 import { Riksdb, Zdic } from './dictionary'
+import { getCodePoint, GlyphRenderer } from './util'
 
 const bot = new Telegraf(Config.get('Bot.token'))
 const i18n = new TelegrafI18n({
@@ -21,7 +22,6 @@ bot.use(async (_, next) => {
     const start = new Date()
     await next()
     const ms = new Date() - start
-    console.log('Respond %sms', ms)
 })
 bot.use((ctx, next) => {
     if (!answerTimeout || !ctx.message) {
@@ -38,16 +38,6 @@ bot.use((ctx, next) => {
     return next()
 })
 
-function getCodePoint(string) {
-    if (string.length === 1) {
-        return string.charCodeAt(0)
-    } else {
-        let high = string.charCodeAt(0)
-        let low = string.charCodeAt(1)
-        return (high - 0xD800) * 0x400 + low - 0xDC00 + 0x10000
-    }
-}
-
 const riksdb = new Riksdb()
 const zdic = new Zdic()
 function buildDictionary(letter) {
@@ -58,7 +48,7 @@ function buildDictionary(letter) {
             m.callbackButton('Zdic', 'zdic_' + letter),
         ]))
 }
-bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.)$/, (ctx) => {
+bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.{1,2})$/, (ctx) => {
     const character = ctx.match[1]
     return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
 })
@@ -101,14 +91,25 @@ bot.action(/^lang_(..)$/, (ctx) => {
     return ctx.editMessageText(i18n.t(lang, 'lang.changed', { lang }))
 })
 
-bot.action(/^riks_(.)$/, async (ctx) => {
+const glyphRenderer = new GlyphRenderer()
+bot.action(/^riks_(.{1,2})$/, async (ctx) => {
     const { match, lang } = ctx
-    const character = getCodePoint(Array.from(match[1])[0])
+    const character = getCodePoint(match[1])
     console.log(`Request U+${character.toString(16).toUpperCase().padStart(4, '0')}, Locale ${lang}`)
     try {
         const result = await riksdb.findByUnicode(character)
         if (result) {
-            return ctx.editMessageText(i18n.t(lang, 'search.riksdb', result))
+            await ctx.deleteMessage()
+            const [rendered, message] = await Promise.all([glyphRenderer.render(match[1]), ctx.replyWithPhoto('https://i.ibb.co/9TCF0WZ/loading.png', {
+                caption: i18n.t(lang, 'search.riksdb', result),
+            })])
+            return ctx.telegram.editMessageMedia(ctx.chat.id, message.message_id, null, {
+                type: 'photo',
+                media: {
+                    source: rendered,
+                },
+                caption: i18n.t(lang, 'search.riksdb', result),
+            })
         } else {
             return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
         }
