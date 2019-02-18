@@ -99,3 +99,4 @@ typings/
 
 config/production.json
 yarn.lock
+package-lock.json

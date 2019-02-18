@@ -8,6 +8,10 @@ search:
     pinyin: ${pinyin}
     on-reading: ${on_reading}
     meaning (eng): ${english_meaning}
+  zdic: |
+    pinyin: ${pinyin}, zhuyin: ${zhuyin}
+    wubi: ${wubi}, changjie: ${changjie}
+    meaning: ${chinese}
 lang:
   ask: 'Select your preferred language.'
   changed: 'Language set to ${lang}!'
