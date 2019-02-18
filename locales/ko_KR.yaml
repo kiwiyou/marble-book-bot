@@ -8,6 +8,10 @@ search:
     한어병음: ${pinyin}
     일본어 음: ${on_reading}
     영문 뜻: ${english_meaning}
+  zdic: |
+    병음: ${pinyin}, 주음: ${zhuyin}
+    오필: ${wubi}, 창힐: ${changjie}
+    중국어 뜻: ${chinese}
 lang:
   ask: '사용하실 언어를 선택해주세요.'
   changed: '언어를 ${lang}로 설정했습니다.'
