@@ -1,0 +1,1 @@
+export Riksdb from './riksdb'

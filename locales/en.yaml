@@ -1,0 +1,15 @@
+search:
+  no-result: 'No result found.'
+  riksdb: |
+    meaning/sound (kor): ${korean}
+    radical: ${radical}
+    stroke: ${pluralize(stroke, 'stroke', 'strokes')} without radical
+    pinyin: ${pinyin}
+    on-reading: ${on_reading}
+    meaning (eng): ${english_meaning}
+lang:
+  ask: 'Select your preferred language.'
+  changed: 'Language set to ${lang}!'
+error: |
+  An error occurred.
+  <code>${err}</code>

@@ -1,0 +1,6 @@
+{
+    "Bot": {
+        "token": "<Your Bot Token Here>",
+        "answerTimeout": "30"
+    }
+}

@@ -2,5 +2,21 @@
   "name": "marble-book-bot",
   "version": "1.0.0",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "start": "babel-node src/index.js",
+    "prod": "NODE_ENV=production babel-node src/index.js" 
+  },
+  "dependencies": {
+    "config": "^3.0.1",
+    "req-fast": "^0.2.18",
+    "telegraf": "^3.27.1",
+    "telegraf-i18n": "^6.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-export-default-from": "^7.2.0",
+    "@babel/preset-env": "^7.3.1"
+  }
 }

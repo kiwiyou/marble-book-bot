@@ -1,0 +1,15 @@
+search:
+  no-result: '결과가 없습니다.'
+  riksdb: |
+    뜻/음: ${korean}
+    부수: ${radical}
+    획수: 부수 제외 ${stroke}획
+    한어병음: ${pinyin}
+    일본어 음: ${on_reading}
+    영문 뜻: ${english_meaning}
+lang:
+  ask: '사용하실 언어를 선택해주세요.'
+  changed: '언어를 ${lang}로 설정했습니다.'
+error: |
+  오류가 발생했습니다.
+  <code>${err}</code>
