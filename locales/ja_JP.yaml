@@ -1,0 +1,20 @@
+search:
+  select-dic: 'ご利用になる辞書を選んでください。'
+  no-result: '検索結果はありません。'
+  riksdb: |
+    音/字意 (韓): ${korean}
+    部首: ${radical}
+    画数: 部首を除いて${stroke}画
+    拼音 (ピンイン): ${pinyin}
+    音: ${on_reading}
+    字意 (英): ${english_meaning}
+  zdic: |
+    拼音 (ピンイン): ${pinyin}, 注音符号: ${zhuyin}
+    五筆: ${wubi}, 倉頡: ${changjie}
+    字意: ${chinese}
+lang:
+  ask: 'ご利用になる言語を選んでください。'
+  changed: '${lang}を使用します。'
+error: |
+  エラーが発生しました。
+  <code>${err}</code>

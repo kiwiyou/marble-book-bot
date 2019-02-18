@@ -14,12 +14,18 @@ function getCodePoint(string) {
 
 function GlyphRenderer() {
     const hanazono = ['HanaMinA.ttf', 'HanaMinB.ttf']
-
+    let fontSize = 256
+    Object.defineProperty(this, 'size', {
+        set: (val) => {
+            fontSize = Math.max(val, 1)
+        },
+        get: () => fontSize
+    })
     this.render = (letter) => {
         const usable = letter.length == 2 ? hanazono[1] : hanazono[0]
         return new Promise(resolve => {
             const result = text2png(letter, {
-                font: '512px _RenderFont',
+                font: `${fontSize}px _RenderFont`,
                 localFontPath: path.resolve(__dirname, '../fonts/' + usable),
                 localFontName: '_RenderFont',
                 backgroundColor: 'white',
