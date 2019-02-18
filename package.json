@@ -10,9 +10,12 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "config": "^3.0.1",
+    "fontkit": "^1.7.8",
     "req-fast": "^0.2.18",
     "telegraf": "^3.27.1",
-    "telegraf-i18n": "^6.4.0"
+    "telegraf-i18n": "^6.4.0",
+    "text2png": "^2.1.0",
+    "tmp": "^0.0.33"
   },
   "devDependencies": {
     "@babel/core": "^7.3.3",
