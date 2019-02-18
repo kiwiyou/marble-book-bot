@@ -3,7 +3,7 @@ import path from 'path'
 import Telegraf from 'telegraf'
 import TelegrafI18n from 'telegraf-i18n'
 import TelegrafSession from 'telegraf/session'
-import { Riksdb } from './dictionary'
+import { Riksdb, Zdic } from './dictionary'
 import { getCodePoint, GlyphRenderer } from './util'
 
 const bot = new Telegraf(Config.get('Bot.token'))
@@ -39,11 +39,13 @@ bot.use((ctx, next) => {
 })
 
 const riksdb = new Riksdb()
+const zdic = new Zdic()
 function buildDictionary(letter) {
     return Telegraf.Extra
         .markdown()
         .markup((m) => m.inlineKeyboard([
-            m.callbackButton('Riksdb', 'riks_' + letter)
+            m.callbackButton('Riksdb', 'riks_' + letter),
+            m.callbackButton('Zdic', 'zdic_' + letter),
         ]))
 }
 bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.{1,2})$/, (ctx) => {
@@ -112,12 +114,27 @@ bot.action(/^riks_(.{1,2})$/, async (ctx) => {
             return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
         }
     } catch (err) {
-        return ctx.editMessageText(i18n.t(lang, 'error', { err }), Telegraf.Extra.HTML())
+        return ctx.editMessageText(i18n.t(lang, 'error', { err }))
     }
 })
 
-bot.catch(err => {
-    console.error(err)
+bot.action(/^zdic_(.)$/, async (ctx) => {
+    const { match, lang } = ctx
+    const character = Array.from(match[1])[0]
+    const unicode = getCodePoint(Array.from(match[1])[0])
+    console.log(`Request ${character}(U+${unicode.toString(16).toUpperCase().padStart(4, '0')}), Locale ${lang}`)
+    try {
+        const result = await zdic.findByCharacter(character)
+        if (result) {
+            return ctx.editMessageText(i18n.t(lang, 'search.zdic', result))
+        } else {
+            return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
+        }
+    } catch (err) {
+        return ctx.editMessageText(i18n.t(lang, 'error', { err }))
+    }
 })
+
+bot.catch((err) => console.log)
 
 bot.launch()
