@@ -1,6 +1,7 @@
 {
     "Bot": {
         "token": "<Your Bot Token Here>",
-        "answerTimeout": "30"
+        "answerTimeout": 30,
+        "fontSize": 256
     }
 }

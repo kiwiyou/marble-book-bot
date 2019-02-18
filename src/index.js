@@ -87,6 +87,7 @@ bot.action(/^lang_(..)$/, (ctx) => {
 })
 
 const glyphRenderer = new GlyphRenderer()
+glyphRenderer.size = Config.get('Bot.fontSize')
 bot.action(/^riks_(.{1,2})$/, async (ctx) => {
     const { match, lang } = ctx
     const character = getCodePoint(match[1])
