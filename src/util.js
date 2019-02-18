@@ -2,7 +2,8 @@ import path from 'path'
 import text2png from 'text2png'
 
 function getCodePoint(string) {
-    if (string.length === 1) {
+    let high = string.charCodeAt(0)
+    if (high < 0xD800) {
         return string.charCodeAt(0)
     } else {
         let high = string.charCodeAt(0)

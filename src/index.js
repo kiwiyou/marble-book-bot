@@ -46,7 +46,7 @@ function buildDictionary(letter) {
             m.callbackButton('Riksdb', 'riks_' + letter)
         ]))
 }
-bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.)$/, (ctx) => {
+bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.{1,2})$/, (ctx) => {
     const character = ctx.match[1]
     return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
 })
@@ -90,7 +90,7 @@ bot.action(/^lang_(..)$/, (ctx) => {
 })
 
 const glyphRenderer = new GlyphRenderer()
-bot.action(/^riks_(.)$/, async (ctx) => {
+bot.action(/^riks_(.{1,2})$/, async (ctx) => {
     const { match, lang } = ctx
     const character = getCodePoint(match[1])
     console.log(`Request U+${character.toString(16).toUpperCase().padStart(4, '0')}, Locale ${lang}`)
