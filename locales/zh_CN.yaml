@@ -1,0 +1,20 @@
+search:
+  select-dic: '请选择字典。'
+  no-result: '没有找到搜索结果。'
+  riksdb: |
+    意/音 (韩): ${korean}
+    部首: ${radical}
+    笔画: 除去部首共 ${stroke} 画
+    拼音: ${pinyin}
+    音读 (日): ${on_reading}
+    字义 (英): ${english_meaning}
+  zdic: |
+    拼音: ${pinyin}, 注音: ${zhuyin}
+    五笔: ${wubi}, 仓颉: ${changjie}
+    字义: ${chinese}
+lang:
+  ask: '请选择语言。'
+  changed: '语言已设定为 ${lang}!'
+error: |
+  发生错误。
+  <code>${err}</code>
