@@ -1,4 +1,5 @@
 search:
+  select-dic: '사전을 선택해주세요.'
   no-result: '결과가 없습니다.'
   riksdb: |
     뜻/음: ${korean}

@@ -1,4 +1,5 @@
 search:
+  select-dic: 'Select your preferred dictionary.'
   no-result: 'No result found.'
   riksdb: |
     meaning/sound (kor): ${korean}

@@ -5,9 +5,10 @@
   "private": true,
   "scripts": {
     "start": "babel-node src/index.js",
-    "prod": "NODE_ENV=production babel-node src/index.js" 
+    "prod": "NODE_ENV=production babel-node src/index.js"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "config": "^3.0.1",
     "req-fast": "^0.2.18",
     "telegraf": "^3.27.1",

@@ -49,25 +49,16 @@ function getCodePoint(string) {
 }
 
 const riksdb = new Riksdb()
-bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.)$/, async (ctx) => {
-    const { match, lang } = ctx
-
-    const character = getCodePoint(Array.from(match[1])[0])
-    console.log(`Request U+${character.toString(16).toUpperCase().padStart(4, '0')}, Locale ${lang}`)
-    try {
-        const result = await riksdb.findByUnicode(character)
-        if (result) {
-            return ctx.reply(i18n.t(lang, 'search.riksdb', result))
-        } else {
-            const message = await ctx.reply(i18n.t(lang, 'search.no-result'))
-            return new Promise(resolve => setTimeout(() => {
-                ctx.telegram.deleteMessage(ctx.chat.id, message.message_id)
-                    .then(resolve)
-            }, 2000))
-        }
-    } catch (error) {
-        return ctx.reply(i18n.t(lang, 'error', { error }), Telegraf.Extra.HTML())
-    }
+function buildDictionary(letter) {
+    return Telegraf.Extra
+        .markdown()
+        .markup((m) => m.inlineKeyboard([
+            m.callbackButton('Riksdb', 'riks_' + letter)
+        ]))
+}
+bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.)$/, (ctx) => {
+    const character = ctx.match[1]
+    return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
 })
 
 const localeMenu = Telegraf.Extra
@@ -108,4 +99,19 @@ bot.action(/^lang_(..)$/, (ctx) => {
     return ctx.editMessageText(i18n.t(lang, 'lang.changed', { lang }))
 })
 
+bot.action(/^riks_(.)$/, async (ctx) => {
+    const { match, lang } = ctx
+    const character = getCodePoint(Array.from(match[1])[0])
+    console.log(`Request U+${character.toString(16).toUpperCase().padStart(4, '0')}, Locale ${lang}`)
+    try {
+        const result = await riksdb.findByUnicode(character)
+        if (result) {
+            return ctx.editMessageText(i18n.t(lang, 'search.riksdb', result))
+        } else {
+            return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
+        }
+    } catch (error) {
+        return ctx.editMessageText(i18n.t(lang, 'error', { error }))
+    }
+})
 bot.launch()
