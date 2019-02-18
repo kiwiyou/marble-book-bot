@@ -99,10 +99,10 @@ bot.action(/^riks_(.{1,2})$/, async (ctx) => {
     try {
         const result = await riksdb.findByUnicode(character)
         if (result) {
-            await ctx.deleteMessage()
             const [rendered, message] = await Promise.all([glyphRenderer.render(match[1]), ctx.replyWithPhoto('https://i.ibb.co/9TCF0WZ/loading.png', {
                 caption: i18n.t(lang, 'search.riksdb', result),
             })])
+            await ctx.deleteMessage()
             return ctx.telegram.editMessageMedia(ctx.chat.id, message.message_id, null, {
                 type: 'photo',
                 media: {
@@ -118,7 +118,7 @@ bot.action(/^riks_(.{1,2})$/, async (ctx) => {
     }
 })
 
-bot.action(/^zdic_(.)$/, async (ctx) => {
+bot.action(/^zdic_(.{1,2})$/, async (ctx) => {
     const { match, lang } = ctx
     const character = Array.from(match[1])[0]
     const unicode = getCodePoint(Array.from(match[1])[0])
@@ -126,7 +126,17 @@ bot.action(/^zdic_(.)$/, async (ctx) => {
     try {
         const result = await zdic.findByCharacter(character)
         if (result) {
-            return ctx.editMessageText(i18n.t(lang, 'search.zdic', result))
+            const [rendered, message] = await Promise.all([glyphRenderer.render(match[1]), ctx.replyWithPhoto('https://i.ibb.co/9TCF0WZ/loading.png', {
+                caption: i18n.t(lang, 'search.riksdb', result),
+            })])
+            await ctx.deleteMessage()
+            return ctx.telegram.editMessageMedia(ctx.chat.id, message.message_id, null, {
+                type: 'photo',
+                media: {
+                    source: rendered,
+                },
+                caption: i18n.t(lang, 'search.zdic', result),
+            })
         } else {
             return ctx.editMessageText(i18n.t(lang, 'search.no-result'))
         }
@@ -135,6 +145,6 @@ bot.action(/^zdic_(.)$/, async (ctx) => {
     }
 })
 
-bot.catch((err) => console.log)
+bot.catch((err) => console.error(err))
 
 bot.launch()
