@@ -33,6 +33,8 @@ bot.use((ctx, next) => {
     return next()
 })
 
+const commands = '(?:何字|무슨한자|what(?:hanzi|hanja|kanji))'
+
 const riksdb = new Riksdb()
 const zdic = new Zdic()
 function buildDictionary(letter) {
@@ -43,9 +45,16 @@ function buildDictionary(letter) {
             m.callbackButton('Zdic', 'zdic_' + letter),
         ]))
 }
-bot.hears(/^(?:何字|무슨한자|what(?:hanzi|hanja|kanji))\s+(.{1,2})$/, (ctx) => {
+bot.hears(new RegExp('^' + commands + '\\s+(\\D{1,2})$'), (ctx) => {
     const character = ctx.match[1]
     return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
+})
+bot.hears(new RegExp('^' + commands + '\\s+(\\d+)$'), (ctx) => {
+  const index = parseInt(ctx.match[1]) - 1
+  const reply = ctx.message.reply_to_message.text
+  if(index < 0 || index >= reply.length) return
+  const character = reply.charAt(index)
+  return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
 })
 
 const localeMenu = Telegraf.Extra

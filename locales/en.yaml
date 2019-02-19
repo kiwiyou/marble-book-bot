@@ -10,7 +10,7 @@ search:
     meaning (eng): ${english_meaning}
   zdic: |
     pinyin: ${pinyin}, zhuyin: ${zhuyin}
-    wubi: ${wubi}, changjie: ${changjie}
+    wubi: ${wubi}, cangjie: ${cangjie}
     meaning: ${chinese}
 lang:
   ask: 'Select your preferred language.'
