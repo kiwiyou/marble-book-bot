@@ -32,7 +32,7 @@ function Zdic() {
                 pinyin: $('span.dicpy > a').eq(0).text(),
                 zhuyin: $('span.dicpy > a').eq(1).text(),
                 wubi: $('td.z_i_t4 > span').eq(0).text(),
-                changjie: $('td.z_i_t4 > span').eq(1).text(),
+                cangjie: $('td.z_i_t4 > span').eq(1).text(),
                 chinese: '\n' + chinese.filter(e => e.startsWith('　') && !e.startsWith('　◎')).join('\n'),
             }
         }

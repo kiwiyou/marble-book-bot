@@ -10,7 +10,7 @@ search:
     字意 (英): ${english_meaning}
   zdic: |
     拼音 (ピンイン): ${pinyin}, 注音符号: ${zhuyin}
-    五筆: ${wubi}, 倉頡: ${changjie}
+    五筆: ${wubi}, 倉頡: ${cangjie}
     字意: ${chinese}
 lang:
   ask: 'ご利用になる言語を選んでください。'
