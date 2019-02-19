@@ -33,7 +33,7 @@ bot.use((ctx, next) => {
     return next()
 })
 
-const commands = '(?:何字|무슨한자|what(?:hanzi|hanja|kanji))'
+const commands = Config.get("Bot.command")
 
 const riksdb = new Riksdb()
 const zdic = new Zdic()

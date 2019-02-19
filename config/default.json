@@ -2,6 +2,7 @@
     "Bot": {
         "token": "<Your Bot Token Here>",
         "answerTimeout": 30,
-        "fontSize": 256
+        "fontSize": 256,
+        "command": "(?:何字|무슨한자|what(?:hanzi|hanja|kanji))"
     }
 }
