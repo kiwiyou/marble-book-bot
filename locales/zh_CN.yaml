@@ -10,7 +10,7 @@ search:
     字义 (英): ${english_meaning}
   zdic: |
     拼音: ${pinyin}, 注音: ${zhuyin}
-    五笔: ${wubi}, 仓颉: ${changjie}
+    五笔: ${wubi}, 仓颉: ${cangjie}
     字义: ${chinese}
 lang:
   ask: '请选择语言。'
