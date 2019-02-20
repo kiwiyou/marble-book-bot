@@ -50,11 +50,13 @@ bot.hears(new RegExp('^' + commands + '\\s+(\\D{1,2})$'), (ctx) => {
     return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
 })
 bot.hears(new RegExp('^' + commands + '\\s+(\\d+)$'), (ctx) => {
-  const index = parseInt(ctx.match[1]) - 1
-  const reply = ctx.message.reply_to_message.text
-  if(index < 0 || index >= reply.length) return
-  const character = reply.charAt(index)
-  return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
+    const index = parseInt(ctx.match[1]) - 1
+    if (!ctx.message.reply_to_message) return
+    const reply = ctx.message.reply_to_message.text
+    const replyBuffer = Array.from(reply)
+    if(index < 0 || index >= replyBuffer.length) return
+    const character = replyBuffer[index]
+    return ctx.reply(i18n.t(ctx.lang, 'search.select-dic'), buildDictionary(character))
 })
 
 const localeMenu = Telegraf.Extra
