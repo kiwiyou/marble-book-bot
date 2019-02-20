@@ -82,10 +82,10 @@ bot.action(/^lang_(..)$/, (ctx) => {
             lang = 'zh_HK'
             break;
         case 'jp':
-            lang = 'ja_JP'
+            lang = 'ja'
             break;
         case 'kr':
-            lang = 'ko_KR'
+            lang = 'ko'
             break;
         case 'tw':
             lang = 'zh_TW'
